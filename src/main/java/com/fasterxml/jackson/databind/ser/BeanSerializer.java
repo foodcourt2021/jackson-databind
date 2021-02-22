@@ -6,10 +6,10 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
-import com.fasterxml.jackson.databind.ser.impl.BeanAsArraySerializer;
+import com.fasterxml.jackson.databind.ser.bean.BeanAsArraySerializer;
+import com.fasterxml.jackson.databind.ser.bean.BeanSerializerBase;
+import com.fasterxml.jackson.databind.ser.bean.UnwrappingBeanSerializer;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
-import com.fasterxml.jackson.databind.ser.impl.UnwrappingBeanSerializer;
-import com.fasterxml.jackson.databind.ser.std.BeanSerializerBase;
 import com.fasterxml.jackson.databind.util.NameTransformer;
 
 /**
@@ -90,7 +90,7 @@ public class BeanSerializer
     }
 
     @Override
-    public JsonSerializer<Object> unwrappingSerializer(NameTransformer unwrapper) {
+    public ValueSerializer<Object> unwrappingSerializer(NameTransformer unwrapper) {
         return new UnwrappingBeanSerializer(this, unwrapper);
     }
 
@@ -133,7 +133,7 @@ public class BeanSerializer
 
     /*
     /**********************************************************************
-    /* JsonSerializer implementation that differs between impls
+    /* ValueSerializer implementation that differs between impls
     /**********************************************************************
      */
 

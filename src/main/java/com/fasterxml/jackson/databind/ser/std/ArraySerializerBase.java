@@ -9,7 +9,6 @@ import com.fasterxml.jackson.core.type.WritableTypeId;
 
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.ser.*;
 
 /**
  * Intermediate base class for serializers used for various Java arrays.
@@ -17,7 +16,7 @@ import com.fasterxml.jackson.databind.ser.*;
  * @param <T> Type of arrays serializer handles
  */
 public abstract class ArraySerializerBase<T>
-    extends ContainerSerializer<T>
+    extends StdContainerSerializer<T>
 {
     /**
      * Setting for specific local override for "unwrap single element arrays":
@@ -44,11 +43,11 @@ public abstract class ArraySerializerBase<T>
         _unwrapSingle = unwrapSingle;
     }
 
-    public abstract JsonSerializer<?> _withResolved(BeanProperty prop,
+    public abstract ValueSerializer<?> _withResolved(BeanProperty prop,
             Boolean unwrapSingle);
 
     @Override
-    public JsonSerializer<?> createContextual(SerializerProvider serializers,
+    public ValueSerializer<?> createContextual(SerializerProvider serializers,
             BeanProperty property)
     {
         Boolean unwrapSingle = null;

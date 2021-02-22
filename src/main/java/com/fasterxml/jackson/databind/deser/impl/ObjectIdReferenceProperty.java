@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.NullValueProvider;
 import com.fasterxml.jackson.databind.deser.SettableBeanProperty;
 import com.fasterxml.jackson.databind.deser.UnresolvedForwardReference;
-import com.fasterxml.jackson.databind.deser.impl.ReadableObjectId.Referring;
+import com.fasterxml.jackson.databind.deser.ReadableObjectId.Referring;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.ObjectIdInfo;
 
@@ -25,7 +25,7 @@ public class ObjectIdReferenceProperty extends SettableBeanProperty
         _objectIdInfo = objectIdInfo;
     }
 
-    public ObjectIdReferenceProperty(ObjectIdReferenceProperty src, JsonDeserializer<?> deser,
+    public ObjectIdReferenceProperty(ObjectIdReferenceProperty src, ValueDeserializer<?> deser,
             NullValueProvider nva)
     {
         super(src, deser, nva);
@@ -46,7 +46,7 @@ public class ObjectIdReferenceProperty extends SettableBeanProperty
     }
 
     @Override
-    public SettableBeanProperty withValueDeserializer(JsonDeserializer<?> deser) {
+    public SettableBeanProperty withValueDeserializer(ValueDeserializer<?> deser) {
         if (_valueDeserializer == deser) {
             return this;
         }

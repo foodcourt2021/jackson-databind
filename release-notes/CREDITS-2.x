@@ -1166,6 +1166,8 @@ Joshua Shannon (retrodaredevil@github)
 Daniel Hrabovcak (TheSpiritXIII@github)
   * Reported #2796: `TypeFactory.constructType()` does not take `TypeBindings` correctly
   (2.11.2)
+  * Reported #2900: Jackson does not support deserializing new Java 9 unmodifiable collections
+  (2.13.0)
 
 Lari Hotari (lhotari@github)
   * Reported #2821: Json serialization fails or a specific case that contains generics and
@@ -1198,7 +1200,9 @@ Marc Carter (drekbour@github)
   * Contributed #43 implementation: Add option to resolve type from multiple existing properties,
    `@JsonTypeInfo(use=DEDUCTION)`
   (2.12.0)
- 
+  * Contributed #3055: Polymorphic subtype deduction ignores `defaultImpl` attribute
+  (2.12.2)
+
 Mike Gilbode (gilbode@github)
   * Reported #792: Deserialization Not Working Right with Generic Types and Builders
   (2.12.0)
@@ -1301,4 +1305,8 @@ SunYiJun (xiaosunzhu@github)
 Miguel G (Migwel@github)
   * Reported, contributed fix for #3025: UntypedObjectDeserializer` mixes multiple unwrapped
     collections (related to #2733)
+   (2.12.2)
+
+Jelle Voost (jellevoost@github)
+  * Reported #3038: Two cases of incorrect error reporting about DeserializationFeature
    (2.12.2)

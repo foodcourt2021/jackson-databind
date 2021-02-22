@@ -11,7 +11,6 @@ import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.impl.ObjectIdReader;
 import com.fasterxml.jackson.databind.deser.impl.PropertyBasedObjectIdGenerator;
-import com.fasterxml.jackson.databind.deser.impl.ReadableObjectId;
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember;
 import com.fasterxml.jackson.databind.introspect.ObjectIdInfo;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.databind.util.ClassUtil;
  * pass such resolver will result in an error.
  */
 public class AbstractDeserializer
-    extends JsonDeserializer<Object>
+    extends ValueDeserializer<Object>
 {
     protected final JavaType _baseType;
 
@@ -43,9 +42,9 @@ public class AbstractDeserializer
     protected final boolean _acceptDouble;
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Life cycle
-    /**********************************************************
+    /**********************************************************************
      */
 
     /**
@@ -103,7 +102,7 @@ public class AbstractDeserializer
     }
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt,
+    public ValueDeserializer<?> createContextual(DeserializationContext ctxt,
             BeanProperty property)
     {
         final AnnotationIntrospector intr = ctxt.getAnnotationIntrospector();
@@ -143,7 +142,7 @@ handledType().getName()));
                         idType = ctxt.getTypeFactory().findTypeParameters(type, ObjectIdGenerator.class)[0];
                         idGen = ctxt.objectIdGeneratorInstance(accessor, objectIdInfo);
                     }
-                    JsonDeserializer<?> deser = ctxt.findRootValueDeserializer(idType);
+                    ValueDeserializer<?> deser = ctxt.findRootValueDeserializer(idType);
                     ObjectIdReader oir = ObjectIdReader.construct(idType, objectIdInfo.getPropertyName(),
                              idGen, deser, idProp, resolver);
                     return new AbstractDeserializer(this, oir, null);
@@ -158,9 +157,9 @@ handledType().getName()));
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Public accessors
-    /**********************************************************
+    /**********************************************************************
      */
 
     @Override
@@ -206,11 +205,11 @@ handledType().getName()));
     public SettableBeanProperty findBackReference(String logicalName) {
         return (_backRefProperties == null) ? null : _backRefProperties.get(logicalName);
     }
-    
+
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Deserializer implementation
-    /**********************************************************
+    /**********************************************************************
      */
 
     @Override
@@ -258,9 +257,9 @@ handledType().getName()));
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Internal methods
-    /**********************************************************
+    /**********************************************************************
      */
 
     protected Object _deserializeIfNatural(JsonParser p, DeserializationContext ctxt)

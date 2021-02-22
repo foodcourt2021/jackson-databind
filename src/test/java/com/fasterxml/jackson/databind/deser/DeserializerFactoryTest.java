@@ -11,7 +11,7 @@ public class DeserializerFactoryTest extends BaseMapTest
     // NOTE: need custom ObjectMapper subtype to create Deserializer
     @SuppressWarnings("serial")
     static class AccessibleMapper extends ObjectMapper {
-        public DefaultDeserializationContext deserializationContext() {
+        public DeserializationContextExt deserializationContext() {
             return _deserializationContext();
         }
     }

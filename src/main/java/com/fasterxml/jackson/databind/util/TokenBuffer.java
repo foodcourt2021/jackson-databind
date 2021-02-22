@@ -343,6 +343,17 @@ public class TokenBuffer
         return _first.type(0);
     }
 
+    /**
+     * Accessor for checking whether this buffer has one or more tokens
+     * or not.
+     *
+     * @return True if this buffer instance has no tokens
+     *
+     * @since 2.13
+     */
+    public boolean isEmpty() {
+        return (_appendAt == 0) && (_first == _last);
+    }
     /*
     /**********************************************************************
     /* Other custom methods not needed for implementing interfaces
@@ -380,7 +391,7 @@ public class TokenBuffer
      * using given {@link JsonGenerator}.
      *<p>
      * Note: this method would be enough to implement
-     * <code>JsonSerializer</code>  for <code>TokenBuffer</code> type;
+     * <code>ValueSerializer</code>  for <code>TokenBuffer</code> type;
      * but we cannot have upwards
      * references (from core to mapper package); and as such we also
      * cannot take second argument.
@@ -502,7 +513,7 @@ public class TokenBuffer
                     //    first
                     if (value instanceof RawValue) {
                         ((RawValue) value).serialize(gen);
-                    } else if (value instanceof JsonSerializable) {
+                    } else if (value instanceof JacksonSerializable) {
                         gen.writePOJO(value);
                     } else {
                         gen.writeEmbeddedObject(value);

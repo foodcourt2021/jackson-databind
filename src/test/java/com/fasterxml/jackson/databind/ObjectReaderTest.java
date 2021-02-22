@@ -36,9 +36,9 @@ public class ObjectReaderTest extends BaseMapTest
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Test methods, simple read/write with defaults
-    /**********************************************************
+    /**********************************************************************
      */
 
     public void testSimpleViaParser() throws Exception
@@ -115,9 +115,9 @@ public class ObjectReaderTest extends BaseMapTest
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Test methods, some alternative JSON settings
-    /**********************************************************
+    /**********************************************************************
      */
 
     public void testJsonReadFeaturesComments() throws Exception
@@ -173,9 +173,9 @@ public class ObjectReaderTest extends BaseMapTest
     }
 
     /*
-    /**********************************************************
+    /**********************************************************************
     /* Test methods, config setting verification
-    /**********************************************************
+    /**********************************************************************
      */
 
     public void testFeatureSettings() throws Exception
@@ -390,7 +390,7 @@ public class ObjectReaderTest extends BaseMapTest
 
         ObjectReader reader = MAPPER.readerFor(POJO.class).at("/foo/bar/caller");
 
-        process(reader.readValue(source, POJO.class));
+        process((POJO) reader.readValue(source));
     }
 
     void process(POJO pojo) {
@@ -408,13 +408,18 @@ public class ObjectReaderTest extends BaseMapTest
     /**********************************************************************
      */
 
-    public void testTreeToValue() throws Exception
+    public void testTreeToValue()
     {
         ArrayNode n = MAPPER.createArrayNode();
         n.add("xyz");
         ObjectReader r = MAPPER.readerFor(String.class);
         List<?> list = r.treeToValue(n, List.class);
         assertEquals(1, list.size());
+
+        // since 2.13:
+        String[] arr = r.treeToValue(n, MAPPER.constructType(String[].class));
+        assertEquals(1, arr.length);
+        assertEquals("xyz", arr[0]);
     }
 
     /*
@@ -457,7 +462,7 @@ public class ObjectReaderTest extends BaseMapTest
     {
         ObjectMapper mapper = JsonMapper.builder().addHandler(new DeserializationProblemHandler(){
             @Override
-            public boolean handleUnknownProperty(DeserializationContext ctxt, JsonParser p, JsonDeserializer<?> deserializer, Object beanOrClass, String propertyName) {
+            public boolean handleUnknownProperty(DeserializationContext ctxt, JsonParser p, ValueDeserializer<?> deserializer, Object beanOrClass, String propertyName) {
                 p.readValueAsTree();
                 return true;
             }

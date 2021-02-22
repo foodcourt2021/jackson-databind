@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.*;
 /**
  * Abstract class that defines API used by {@link SerializerProvider}
  * to obtain actual
- * {@link JsonSerializer} instances from multiple distinct factories.
+ * {@link ValueSerializer} instances from multiple distinct factories.
  */
 public abstract class SerializerFactory
 {
@@ -26,7 +26,7 @@ public abstract class SerializerFactory
      *
      * @since 3.0 (last argument added)
      */
-    public abstract JsonSerializer<Object> createSerializer(SerializerProvider ctxt,
+    public abstract ValueSerializer<Object> createSerializer(SerializerProvider ctxt,
             JavaType baseType, BeanDescription beanDesc, JsonFormat.Value formatOverride);
 
     /**
@@ -39,7 +39,7 @@ public abstract class SerializerFactory
      * @return Serializer to use, if factory knows it; null if not (in which case default
      *   serializer is to be used)
      */
-    public abstract JsonSerializer<Object> createKeySerializer(SerializerProvider ctxt,
+    public abstract ValueSerializer<Object> createKeySerializer(SerializerProvider ctxt,
             JavaType type);
 
     /**
@@ -49,9 +49,9 @@ public abstract class SerializerFactory
      * alternative implementation (like one that would write an Empty String)
      * can be defined.
      */
-    public abstract JsonSerializer<Object> getDefaultNullKeySerializer();
+    public abstract ValueSerializer<Object> getDefaultNullKeySerializer();
 
-    public abstract JsonSerializer<Object> getDefaultNullValueSerializer();
+    public abstract ValueSerializer<Object> getDefaultNullValueSerializer();
 
     /*
     /**********************************************************************
@@ -75,17 +75,17 @@ public abstract class SerializerFactory
      * Mutant factory method for creating a new factory instance with additional serializer modifier:
      * modifier will get inserted as the first one to be checked.
      */
-    public abstract SerializerFactory withSerializerModifier(BeanSerializerModifier modifier);
+    public abstract SerializerFactory withSerializerModifier(ValueSerializerModifier modifier);
 
     /**
      * @since 3.0
      */
-    public abstract SerializerFactory withNullValueSerializer(JsonSerializer<?> nvs);
+    public abstract SerializerFactory withNullValueSerializer(ValueSerializer<?> nvs);
 
     /**
      * @since 3.0
      */
-    public abstract SerializerFactory withNullKeySerializer(JsonSerializer<?> nks);
+    public abstract SerializerFactory withNullKeySerializer(ValueSerializer<?> nks);
 
     /*
     /**********************************************************************
@@ -97,7 +97,7 @@ public abstract class SerializerFactory
      * @deprecated Since 3.0 use variant that takes {@code JsonFormat.Value} argument
      */
     @Deprecated // since 3.0
-    public JsonSerializer<Object> createSerializer(SerializerProvider ctxt, JavaType baseType)
+    public ValueSerializer<Object> createSerializer(SerializerProvider ctxt, JavaType baseType)
     {
         BeanDescription beanDesc = ctxt.introspectBeanDescription(baseType);
         return createSerializer(ctxt, baseType, beanDesc, null);

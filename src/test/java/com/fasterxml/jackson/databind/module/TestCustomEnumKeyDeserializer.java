@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
+import com.fasterxml.jackson.databind.deser.ValueDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -53,7 +53,7 @@ public class TestCustomEnumKeyDeserializer extends BaseMapTest
         }
     }
 
-    static class TestEnumSerializer extends JsonSerializer<TestEnum> {
+    static class TestEnumSerializer extends ValueSerializer<TestEnum> {
         @Override
         public void serialize(TestEnum languageCode, JsonGenerator g, SerializerProvider serializerProvider) {
             g.writeString(languageCode.code());
@@ -93,7 +93,7 @@ public class TestCustomEnumKeyDeserializer extends BaseMapTest
         }
     }
 
-    static class TestEnumKeySerializer extends JsonSerializer<TestEnum> {
+    static class TestEnumKeySerializer extends ValueSerializer<TestEnum> {
         @Override
         public void serialize(TestEnum test, JsonGenerator g, SerializerProvider serializerProvider) {
             g.writeName(test.code());
@@ -206,7 +206,7 @@ public class TestCustomEnumKeyDeserializer extends BaseMapTest
     public void testCustomEnumKeySerializerWithPolymorphic() throws IOException
     {
         SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(SuperTypeEnum.class, new JsonDeserializer<SuperTypeEnum>() {
+        simpleModule.addDeserializer(SuperTypeEnum.class, new ValueDeserializer<SuperTypeEnum>() {
             @Override
             public SuperTypeEnum deserialize(JsonParser p, DeserializationContext deserializationContext)
             {
@@ -228,12 +228,12 @@ public class TestCustomEnumKeyDeserializer extends BaseMapTest
     public void testCustomEnumValueAndKeyViaModifier() throws IOException
     {
         SimpleModule module = new SimpleModule();
-        module.setDeserializerModifier(new BeanDeserializerModifier() {        
+        module.setDeserializerModifier(new ValueDeserializerModifier() {        
             @Override
-            public JsonDeserializer<Enum> modifyEnumDeserializer(DeserializationConfig config,
+            public ValueDeserializer<Enum> modifyEnumDeserializer(DeserializationConfig config,
                     final JavaType type, BeanDescription beanDesc,
-                    final JsonDeserializer<?> deserializer) {
-                return new JsonDeserializer<Enum>() {
+                    final ValueDeserializer<?> deserializer) {
+                return new ValueDeserializer<Enum>() {
                     @Override
                     public Enum deserialize(JsonParser p, DeserializationContext ctxt) {
                         Class<? extends Enum> rawClass = (Class<Enum<?>>) type.getRawClass();

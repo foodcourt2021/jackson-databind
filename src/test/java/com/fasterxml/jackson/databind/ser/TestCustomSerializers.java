@@ -17,9 +17,9 @@ import com.fasterxml.jackson.core.io.CharacterEscapes;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
+import com.fasterxml.jackson.databind.ser.jdk.CollectionSerializer;
+import com.fasterxml.jackson.databind.ser.std.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.std.SimpleFilterProvider;
 import com.fasterxml.jackson.databind.ser.std.StdDelegatingSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdScalarSerializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
@@ -211,10 +211,10 @@ public class TestCustomSerializers extends BaseMapTest
     public void testCustomLists() throws Exception
     {
         SimpleModule module = new SimpleModule("test", Version.unknownVersion());
-        JsonSerializer<?> ser = new CollectionSerializer(null, false, null, null);
-        final JsonSerializer<Object> collectionSerializer = (JsonSerializer<Object>) ser;
+        ValueSerializer<?> ser = new CollectionSerializer(null, false, null, null);
+        final ValueSerializer<Object> collectionSerializer = (ValueSerializer<Object>) ser;
 
-        module.addSerializer(Collection.class, new JsonSerializer<Collection>() {
+        module.addSerializer(Collection.class, new ValueSerializer<Collection>() {
             @Override
             public void serialize(Collection value, JsonGenerator gen, SerializerProvider provider)
             {

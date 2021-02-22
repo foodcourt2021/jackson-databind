@@ -9,16 +9,37 @@ Project: jackson-databind
 2.13.0 (not yet released)
 
 #2828: Add `DatabindException` as intermediate subtype of `JsonMappingException`
+#2900: Jackson does not support deserializing new Java 9 unmodifiable collections
+ (reported by Daniel H)
+#3001: Add mechanism for setting default `ContextAttributes` for `ObjectMapper`
+#3002: Add `DeserializationContext.readTreeAsValue()` methods for more convenient
+  conversions for deserializers to use
+#3011: Clean up support of typed "unmodifiable", "singleton" Maps/Sets/Collections
 #3035: Add `removeMixIn()` method in `MapperBuilder`
+#3036: Backport `MapperBuilder` lambda-taking methods: `withConfigOverride()`,
+  `withCoercionConfig()`, `withCoercionConfigDefaults()`
 
 2.12.2 (not yet released)
 
+#3008: String property deserializes null as "null" for
+   `JsonTypeInfo.As.EXTERNAL_PROPERTY`
 #3022: Property ignorals cause `BeanDeserializer `to forget how to read
   from arrays (not copying `_arrayDelegateDeserializer`)
  (reported by Gian M)
 #3025: UntypedObjectDeserializer` mixes multiple unwrapped
   collections (related to #2733)
  (fix contributed by Migwel@github)
+#3038: Two cases of incorrect error reporting about DeserializationFeature
+ (reported by Jelle V)
+#3045: Bug in polymorphic deserialization with `@JsonCreator`, `@JsonAnySetter`,
+  `JsonTypeInfo.As.EXTERNAL_PROPERTY`
+ (reported by martineaus83@github)
+#3055: Polymorphic subtype deduction ignores `defaultImpl` attribute
+ (contributed by drekbour@github)
+#3056: MismatchedInputException: Cannot deserialize instance of
+  `com.fasterxml.jackson.databind.node.ObjectNode` out of VALUE_NULL token
+ (reported by Stexxen@github)
+#3060: Missing override for `hasAsKey()` in `AnnotationIntrospectorPair`
 
 2.12.1 (08-Jan-2021)
 

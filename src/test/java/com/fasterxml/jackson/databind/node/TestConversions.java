@@ -49,7 +49,7 @@ public class TestConversions extends BaseMapTest
     static class Issue467Tree  {
     }
     
-    static class Issue467Serializer extends JsonSerializer<Issue467Bean> {
+    static class Issue467Serializer extends ValueSerializer<Issue467Bean> {
         @Override
         public void serialize(Issue467Bean value, JsonGenerator g,
                 SerializerProvider provider) {
@@ -57,7 +57,7 @@ public class TestConversions extends BaseMapTest
         }
     }    
 
-    static class Issue467TreeSerializer extends JsonSerializer<Issue467Tree> {
+    static class Issue467TreeSerializer extends ValueSerializer<Issue467Tree> {
         @Override
         public void serialize(Issue467Tree value, JsonGenerator g,
                 SerializerProvider provider) {
@@ -81,7 +81,7 @@ public class TestConversions extends BaseMapTest
     }
 
     // [databind#433]
-    static class CustomSerializedPojo implements JsonSerializable
+    static class CustomSerializedPojo implements JacksonSerializable
     {
         private final ObjectNode node = JsonNodeFactory.instance.objectNode();
 
@@ -141,7 +141,7 @@ public class TestConversions extends BaseMapTest
     }
     
     // Deserializer to trigger the problem described in [JACKSON-554]
-    public static class LeafDeserializer extends JsonDeserializer<Leaf>
+    public static class LeafDeserializer extends ValueDeserializer<Leaf>
     {
         @Override
         public Leaf deserialize(JsonParser jp, DeserializationContext ctxt)

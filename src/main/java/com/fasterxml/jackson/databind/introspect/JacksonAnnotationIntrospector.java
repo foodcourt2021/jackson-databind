@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.VirtualBeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.AttributePropertyWriter;
-import com.fasterxml.jackson.databind.ser.std.RawSerializer;
+import com.fasterxml.jackson.databind.ser.jackson.RawSerializer;
 import com.fasterxml.jackson.databind.type.MapLikeType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.databind.util.*;
@@ -683,8 +683,8 @@ public class JacksonAnnotationIntrospector
         JsonSerialize ann = _findAnnotation(a, JsonSerialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonSerializer> serClass = ann.using();
-            if (serClass != JsonSerializer.None.class) {
+            Class<? extends ValueSerializer> serClass = ann.using();
+            if (serClass != ValueSerializer.None.class) {
                 return serClass;
             }
         }
@@ -708,8 +708,8 @@ public class JacksonAnnotationIntrospector
         JsonSerialize ann = _findAnnotation(a, JsonSerialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonSerializer> serClass = ann.keyUsing();
-            if (serClass != JsonSerializer.None.class) {
+            Class<? extends ValueSerializer> serClass = ann.keyUsing();
+            if (serClass != ValueSerializer.None.class) {
                 return serClass;
             }
         }
@@ -722,8 +722,8 @@ public class JacksonAnnotationIntrospector
         JsonSerialize ann = _findAnnotation(a, JsonSerialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonSerializer> serClass = ann.contentUsing();
-            if (serClass != JsonSerializer.None.class) {
+            Class<? extends ValueSerializer> serClass = ann.contentUsing();
+            if (serClass != ValueSerializer.None.class) {
                 return serClass;
             }
         }
@@ -736,8 +736,8 @@ public class JacksonAnnotationIntrospector
         JsonSerialize ann = _findAnnotation(a, JsonSerialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonSerializer> serClass = ann.nullsUsing();
-            if (serClass != JsonSerializer.None.class) {
+            Class<? extends ValueSerializer> serClass = ann.nullsUsing();
+            if (serClass != ValueSerializer.None.class) {
                 return serClass;
             }
         }
@@ -1082,8 +1082,8 @@ public class JacksonAnnotationIntrospector
         JsonDeserialize ann = _findAnnotation(a, JsonDeserialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonDeserializer> deserClass = ann.using();
-            if (deserClass != JsonDeserializer.None.class) {
+            Class<? extends ValueDeserializer> deserClass = ann.using();
+            if (deserClass != ValueDeserializer.None.class) {
                 return deserClass;
             }
         }
@@ -1109,8 +1109,8 @@ public class JacksonAnnotationIntrospector
         JsonDeserialize ann = _findAnnotation(a, JsonDeserialize.class);
         if (ann != null) {
             @SuppressWarnings("rawtypes")
-            Class<? extends JsonDeserializer> deserClass = ann.contentUsing();
-            if (deserClass != JsonDeserializer.None.class) {
+            Class<? extends ValueDeserializer> deserClass = ann.contentUsing();
+            if (deserClass != ValueDeserializer.None.class) {
                 return deserClass;
             }
         }

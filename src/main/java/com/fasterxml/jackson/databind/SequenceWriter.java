@@ -7,7 +7,7 @@ import java.util.Collection;
 import com.fasterxml.jackson.core.*;
 import com.fasterxml.jackson.core.exc.WrappedIOException;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
-import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
+import com.fasterxml.jackson.databind.ser.SerializationContextExt;
 import com.fasterxml.jackson.databind.ser.impl.PropertySerializerMap;
 import com.fasterxml.jackson.databind.ser.impl.TypeWrappedSerializer;
 
@@ -36,11 +36,11 @@ public class SequenceWriter
     /**********************************************************************
      */
 
-    protected final DefaultSerializerProvider _provider;
+    protected final SerializationContextExt _provider;
     protected final SerializationConfig _config;
     protected final JsonGenerator _generator;
 
-    protected final JsonSerializer<Object> _rootSerializer;
+    protected final ValueSerializer<Object> _rootSerializer;
     protected final TypeSerializer _typeSerializer;
     
     protected final boolean _closeGenerator;
@@ -74,7 +74,7 @@ public class SequenceWriter
     /**********************************************************************
      */
 
-    public SequenceWriter(DefaultSerializerProvider prov, JsonGenerator gen,
+    public SequenceWriter(SerializationContextExt prov, JsonGenerator gen,
             boolean closeGenerator, ObjectWriter.Prefetch prefetch)
     {
         _provider = prov;
@@ -140,7 +140,7 @@ public class SequenceWriter
         if (_cfgCloseCloseable && (value instanceof Closeable)) {
             return _writeCloseableValue(value);
         }
-        JsonSerializer<Object> ser = _rootSerializer;
+        ValueSerializer<Object> ser = _rootSerializer;
         if (ser == null) {
             Class<?> type = value.getClass();
             ser = _dynamicSerializers.serializerFor(type);
@@ -159,7 +159,7 @@ public class SequenceWriter
      * Method for writing given value into output, as part of sequence
      * to write; further, full type (often generic, like {@link java.util.Map}
      * is passed in case a new
-     * {@link JsonSerializer} needs to be fetched to handle type
+     * {@link ValueSerializer} needs to be fetched to handle type
      * 
      * If root type was specified for {@link ObjectWriter},
      * value must be of compatible type (same or subtype).
@@ -179,7 +179,7 @@ public class SequenceWriter
          *   is likely to run into other issues. But who knows; if it does become an
          *   issue, may need to implement alternative, JavaType-based map.
          */
-        JsonSerializer<Object> ser = _dynamicSerializers.serializerFor(type.getRawClass());
+        ValueSerializer<Object> ser = _dynamicSerializers.serializerFor(type.getRawClass());
         if (ser == null) {
             ser = _findAndAddDynamic(type);
         }
@@ -247,7 +247,7 @@ public class SequenceWriter
     {
         Closeable toClose = (Closeable) value;
         try {
-            JsonSerializer<Object> ser = _rootSerializer;
+            ValueSerializer<Object> ser = _rootSerializer;
             if (ser == null) {
                 Class<?> type = value.getClass();
                 ser = _dynamicSerializers.serializerFor(type);
@@ -282,7 +282,7 @@ public class SequenceWriter
         Closeable toClose = (Closeable) value;
         try {
             // 15-Dec-2014, tatu: As per above, could be problem that we do not pass generic type
-            JsonSerializer<Object> ser = _dynamicSerializers.serializerFor(type.getRawClass());
+            ValueSerializer<Object> ser = _dynamicSerializers.serializerFor(type.getRawClass());
             if (ser == null) {
                 ser = _findAndAddDynamic(type);
             }
@@ -307,7 +307,7 @@ public class SequenceWriter
         return this;
     }
 
-    private final JsonSerializer<Object> _findAndAddDynamic(Class<?> type)
+    private final ValueSerializer<Object> _findAndAddDynamic(Class<?> type)
     {
         PropertySerializerMap.SerializerAndMapResult result;
         if (_typeSerializer == null) {
@@ -321,7 +321,7 @@ public class SequenceWriter
         return result.serializer;
     }
 
-    private final JsonSerializer<Object> _findAndAddDynamic(JavaType type)
+    private final ValueSerializer<Object> _findAndAddDynamic(JavaType type)
     {
         PropertySerializerMap.SerializerAndMapResult result;
         if (_typeSerializer == null) {
