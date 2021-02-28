@@ -47,7 +47,7 @@ public abstract class MapperConfig<T extends MapperConfig<T>>
     /**
      * Set of shared mapper features enabled.
      */
-    protected final int _mapperFeatures;
+    protected final long _mapperFeatures;
     
     /**
      * Immutable container object for simple configuration settings.
@@ -60,7 +60,7 @@ public abstract class MapperConfig<T extends MapperConfig<T>>
     /**********************************************************************
      */
 
-    protected MapperConfig(BaseSettings base, int mapperFeatures)
+    protected MapperConfig(BaseSettings base, long mapperFeatures)
     {
         _base = base;
         _mapperFeatures = mapperFeatures;
@@ -89,17 +89,9 @@ public abstract class MapperConfig<T extends MapperConfig<T>>
      * serialization, deserialization)
      */
     public final boolean isEnabled(MapperFeature f) {
-        return (_mapperFeatures & f.getMask()) != 0;
+        return (_mapperFeatures & f.getLongMask()) != 0;
     }
 
-    /**
-     * "Bulk" access method for checking that all features specified by
-     * mask are enabled.
-     */
-    public final boolean hasMapperFeatures(int featureMask) {
-        return (_mapperFeatures & featureMask) == featureMask;
-    }
-    
     /**
      * Method for determining whether annotation processing is enabled or not
      * (default settings are typically that it is enabled; must explicitly disable).

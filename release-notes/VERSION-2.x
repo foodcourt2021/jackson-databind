@@ -15,12 +15,16 @@ Project: jackson-databind
 #3002: Add `DeserializationContext.readTreeAsValue()` methods for more convenient
   conversions for deserializers to use
 #3011: Clean up support of typed "unmodifiable", "singleton" Maps/Sets/Collections
+#3033: Extend internal bitfield of `MapperFeature` to be `long`
 #3035: Add `removeMixIn()` method in `MapperBuilder`
 #3036: Backport `MapperBuilder` lambda-taking methods: `withConfigOverride()`,
   `withCoercionConfig()`, `withCoercionConfigDefaults()`
 
 2.12.2 (not yet released)
 
+#754: EXTERNAL_PROPERTY does not work well with `@JsonCreator` and
+   `FAIL_ON_UNKNOWN_PROPERTIES`
+ (reported by Vassil D)
 #3008: String property deserializes null as "null" for
    `JsonTypeInfo.As.EXTERNAL_PROPERTY`
 #3022: Property ignorals cause `BeanDeserializer `to forget how to read
@@ -40,6 +44,11 @@ Project: jackson-databind
   `com.fasterxml.jackson.databind.node.ObjectNode` out of VALUE_NULL token
  (reported by Stexxen@github)
 #3060: Missing override for `hasAsKey()` in `AnnotationIntrospectorPair`
+#3062: Creator lookup fails with `InvalidDefinitionException` for conflict
+  between single-double/single-Double arg constructor
+#3068: `MapDeserializer` forcing `JsonMappingException` wrapping even if
+  WRAP_EXCEPTIONS set to false
+ (reported by perkss@github)
 
 2.12.1 (08-Jan-2021)
 
