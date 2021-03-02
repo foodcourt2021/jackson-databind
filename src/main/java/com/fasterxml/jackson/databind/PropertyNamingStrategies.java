@@ -64,7 +64,7 @@ public abstract class PropertyNamingStrategies
      *<p>
      * Example external property names would be "number-value", "naming-strategy", "the-definite-proof".
      */
-    public static final PropertyNamingStrategy KEBAB_CASE = new KebabCaseStrategy();
+    public static PropertyNamingStrategy KEBAB_CASE = new KebabCaseStrategy();
 
     /**
      * Naming convention widely used as configuration properties name, where words are in
@@ -348,4 +348,20 @@ public abstract class PropertyNamingStrategies
             return translateLowerCaseWithSeparator(input, '.');
         }
     }
+
+    /**
+     * Project part 5 testable design.
+     */
+    public static void setKebabCase(PropertyNamingStrategy kebabCase) {
+        KEBAB_CASE = kebabCase;
+    }
+
+    public static class KebabCaseStrategyWithSWE261 extends KebabCaseStrategy {
+        @Override
+        public String translate(String input) {
+            String ret = super.translate(input) + "-swe261";
+            return ret;
+        }
+    }
+
 }

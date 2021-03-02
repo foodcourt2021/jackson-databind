@@ -88,7 +88,7 @@ public class SWE261Part3Test extends BaseTest {
 
     @Test
     public void testReadValueWithURL() throws MalformedURLException {
-        URL url = new URL("file://"+System.getProperty("user.dir")+"/src/test/resources/data/avenger.json");
+        URL url = (new File("src/test/resources/data/avenger.json")).toURI().toURL();
         avenger = mapper.readValue(url, Avenger.class);
         check();
         avenger = mapper.readValue(url, new TypeReference<Avenger>() {});

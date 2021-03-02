@@ -106,6 +106,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- For project part 5 "mock"   -->
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>2.23.0</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <!-- Alas, need to include snapshot reference since otherwise can not find
